@@ -9,7 +9,7 @@ public class Pattern {
         int tz = (cz << 4) + 8;
         int dx = tx - ox;
         int dz = tz - oz;
-        return dx * dx + dz * dz < 0x4000;
+        return dx * dx + dz * dz <= 0x4000;
     }
 
     public static Chunk[] count(int ox, int oz) {
@@ -31,11 +31,11 @@ public class Pattern {
                 for (int z = 0; z < 16; z++) {
                     int tx = (chunk.x << 4) + x;
                     int tz = (chunk.z << 4) + z;
-                    if (tx * tx + tz * tz < 0x4000)
-                        chunk.percent++;
+                    int distance = tx * tx + tz * tz;
+                    if (distance <= 0x4000 && distance >= 28)
+                        chunk.surface++;
                 }
             }
-            chunk.percent = chunk.percent / 256;
         }
         return chunks;
     }
